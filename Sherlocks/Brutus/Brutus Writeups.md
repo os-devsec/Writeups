@@ -184,7 +184,7 @@ Briefly summarizing the incident, the system was compromised by a brute force at
 
 Once the analysis is done, we can respond to the incident follow the following series of steps:
 
-1. Isolate the system form the network to prevent further damage or spread.
+1. Isolate the system from the network to prevent further damage or spread.
 2. Block or remove compromised accounts.
 3. Delete the account created by the attacker (cyberjunkie)
 4. Delete the malicious script
