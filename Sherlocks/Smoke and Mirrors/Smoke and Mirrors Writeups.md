@@ -21,7 +21,7 @@ LSA (Local Security Authority) is component of Windows **responsible for users a
 
 Following this line of thought, we searched in the Windows PowerShell Operational logs for **common command used such as `reg add`** which is used to add new subkeys or entries to the Windows Registry, or to modify existing values.
 
-[!image](/Sherlocks/Smoke%20and%20Mirrors/img/LSA%20Registry%20Key.png)
+![image](https://github.com/user-attachments/assets/e5924d26-e6de-4faf-8eac-70ac839e0eb0)
 
 As shown above, we found that the attacker used the following command: 
 
@@ -45,7 +45,7 @@ From this, we can conclude that the attacker modified the registry key `HKLM\SYS
 
 The most commonly used PowerShell cmdlet to disable Windows Defender is `Set-MpPreference`. Therefore, we searched for this cmdlet in the Windows PowerShell logs. We found multiples coincidences of its use, however, as shown below, the first execution was recorded at '4-10-2025 1:31:35 AM'
 
-**IMAGE**
+![image](https://github.com/user-attachments/assets/a8781f72-4c29-43d7-95ee-a88a00939546)
 
 As shown above, we found that the attacker used the following command to disable Windows Defender Protections:
 
@@ -72,7 +72,7 @@ Aditionally, a Dynamic Link Library (DLL) is `.dll` file that **stores reusable 
 
 As shown below, the attackers modified the `amsi.dll` file, which contains functions related to antivirus scanning. Also the patched function was `AmsiScanBuffer`, this function analyzes the content of a script or command. By modifiying this function, any subsequent malicious code can be executed without being detected by the antivirus.
 
-**IMAGE**
+![image](https://github.com/user-attachments/assets/ec70d87e-7756-4193-8d72-3e54fef84925)
 
 **ANSWER: `AmsiScanBuffer`**
 
@@ -80,7 +80,7 @@ As shown below, the attackers modified the `amsi.dll` file, which contains funct
 
 To restart a windows machine in Safe Mode, the command must include `safeboot`. Searching for this we confirm that the attacker executed the command `bcdedit.exe /set safeboot network` to initiate a Safe Mode reboot.
 
-**IMAGE**
+![image](https://github.com/user-attachments/assets/7ac61a01-447c-4d66-9b33-b1127c031f60)
 
 **ANSWER: `bcdedit.exe /set safeboot network`**
 
@@ -88,7 +88,7 @@ To restart a windows machine in Safe Mode, the command must include `safeboot`. 
 
 The cmdlet `Set-PSReadlineOption` allows us modify the behavior of the PSReadLine module during command-line editing. Searching for its used, it is reveals that the attacker executed the following command to disable the history logging.
 
-**IMAGE**
+![image](https://github.com/user-attachments/assets/bf5a2659-008f-4120-8afb-c58f7b79123e)
 
 **ANSWER: `Set-PSReadlineOption -HistorySaveStyle SaveNothing`**
 
