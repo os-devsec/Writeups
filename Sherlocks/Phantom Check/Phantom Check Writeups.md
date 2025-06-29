@@ -36,9 +36,9 @@ Following the same approach, we searched for `Get-WmiObject` and found the query
 
 In order to search for the PowerShell script, we filtered logs by **Event ID 4104**. These types of logs contain the PowerShell scripts that were executed. Upon reviewing those logs we found that the attacker loaded a virtualization detection script which contains the function `Check-VM` as shown below.
 
-![image](/Image%20Resources/Log%20filter.png)
+![image](https://github.com/user-attachments/assets/6f822b5f-aeed-4472-9c29-b34ff772b417)
 
-![image](/Image%20Resources/Fuction%20of%20the%20script.png)
+![image](https://github.com/user-attachments/assets/98eec794-fc2a-4554-a7c9-52755359ad8c)
 
 **ANSWER: `Check-VM`**
 
@@ -48,7 +48,7 @@ Upon analyzing the script we find that it retrieves services details from `HKLM:
 
 Taking into account that **hypervisors have their own services** to facilitate integration between the host and the VM, this key is used to **detec those services** that are asociated with different virtualization platforms. It is also a silent and reliable method, as accessing the registry is **less intrusive** than other techniques, and the presence of those services it is a **strong indicator** that the system is virtualized.
 
-![image](/Image%20Resources/Service%20Registry%20Key.png)
+![image](https://github.com/user-attachments/assets/d216f820-8179-407e-9d43-9e369594885c)
 
 **ANSWER: `HKLM:\SYSTEM\ControlSet001\Services`**
 
@@ -56,7 +56,7 @@ Taking into account that **hypervisors have their own services** to facilitate i
 
 We continued searching until we found the VirtualBox-related part of the script. Just below that section, we observed that the script uses the `Get-Process` command to retrive and then compare running processes with `vboxservice.exe` and `vboxtray.exe` to determine if the system is running in a VirtualBox enviroment.
 
-![image](/Image%20Resources/VirtualBox%20processes.png)
+![image](https://github.com/user-attachments/assets/32664025-c92b-4e34-b3d4-9613bb11097a)
 
 **ANSWER: `vboxservice.exe, vboxtray.exe`**
 
@@ -64,7 +64,7 @@ We continued searching until we found the VirtualBox-related part of the script.
 
 BY analyzing the script, we noticed that it prints virtual machine detection results using the phrase 'This is a', followed by the name of the virtualization platform. To identify which virtualization platforms were detected by the script, we searched for the string 'This is a'.
 
-![image](/Image%20Resources/Virtualization%20Platforms.png)
+![image](https://github.com/user-attachments/assets/f0a72e1b-7450-4244-a1d8-0d6fcbdbc92b)
 
 As shown above, the script detects that the system is running inside either `Hyper-V` or `VMware` platform.
 
