@@ -1,0 +1,3 @@
+
+https://2023-coldstorage.s3.amazonaws.com # bulk data from 2023, if required anything from here contact simon or alonzo. Retention period is 4 years
+https://2022-warmstor.s3.amazonaws.com # pending audit, email alonzo at archivebackups@forela.co.uk for any clearance
