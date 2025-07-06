@@ -34,11 +34,11 @@ While examining the `ftp.pcap` file, we find suspicious activity from the IP `15
 
 Another important observation is that the IP `15.206.185.207` was **alternating source ports**, as if attempting **multiple sessions in parallel**. It is also worth noting that this is a **public IP** (owned by AWS), which suggests that the attacker was likely **operating from a cloud server**, that is a common tactic used to hide their real identity and location.
 
-![IMAGE](/Writeups/Sherlocks/Origins/img/Attacker's%20IP.jpg)
+![IMAGE](/Sherlocks/Origins/img/Attacker's%20IP.jpg)
 
 Examining the file further, we identified a **brute-force attemp** from this IP. The attacker repeatedly used the `USER` command with different usernames such as `admin`, `backup` and `sysaccount`. These attemps were separeted by only a few milliseconds, and the server responded with `331 Please specify the password`. This behavior strongly suggest a brute-force attack trying to find valid usernames.
 
-![IMAGE](/Writeups/Sherlocks/Origins/img/Brute-Force%20Attemps.jpg)
+![IMAGE](/Sherlocks/Origins/img/Brute-Force%20Attemps.jpg)
 
 With this evidence, we can confirm the attacker's IP address.
 
@@ -49,7 +49,7 @@ With this evidence, we can confirm the attacker's IP address.
 
 Once we have the attacker's IP address, we can use geolocation tools to determine the city it belongs to. In this case, I used [iplocation.net](https://www.iplocation.net/) to find the city associated with the IP.
 
-![IMAGE](/Writeups/Sherlocks/Origins/img/Geolocation%20Data.jpg)
+![IMAGE](/Sherlocks/Origins/img/Geolocation%20Data.jpg)
 
 According to the geolocation results, the IP address is registered in Mumbai, Maharashtra, India.
 
@@ -60,7 +60,7 @@ According to the geolocation results, the IP address is registered in Mumbai, Ma
 
 While examining the file, we found that the FTP application used was `vsFTPd 3.0.5`, as shown below.
 
-![IMAGE](/Writeups/Sherlocks/Origins/img/FTP%20application.jpg)
+![IMAGE](/Sherlocks/Origins/img/FTP%20application.jpg)
 
 vsFTPd (*Very Secure FTP Daemon*) is a popular and secure FTP server for Unix-like systems. It presence suggests the server was likely running on a Linux-based system. Although vsFTPd is known for its security, FTP transmits data in plaintext, making it vulnerable to brute-force attacks and credential sniffing if not properly secured. 
 
@@ -71,7 +71,7 @@ vsFTPd (*Very Secure FTP Daemon*) is a popular and secure FTP server for Unix-li
 
 By analyzing the file we identified the moment when the brute-force attack began. As shown below, the attack started on **2024-05-03 at 04:12:54** with the username `admin`.
 
-![IMAGE](/Writeups/Sherlocks/Origins/img/Start%20of%20the%20Attack.jpg)
+![IMAGE](/Sherlocks/Origins/img/Start%20of%20the%20Attack.jpg)
 
 **ANSWER: `2024-05-03 04:12:54`**
 
@@ -80,7 +80,7 @@ By analyzing the file we identified the moment when the brute-force attack began
 
 Searching through the file, we identified several connections attempts, but one was successful, using the username `forela-ftp` and password `ftprocks69$`.
 
-![IMAGE](/Writeups/Sherlocks/Origins/img/Credentials.jpg)
+![IMAGE](/Sherlocks/Origins/img/Credentials.jpg)
 
 **ANSWER: `forela-ftp:ftprocks69$`**
 
@@ -89,7 +89,7 @@ Searching through the file, we identified several connections attempts, but one 
 
 The common command used to download files from an FTP server is `RETR`, so we filtered the file data to search for occurrences of this command.
 
-![IMAGE](/Writeups/Sherlocks/Origins/img/FTP%20command.jpg)
+![IMAGE](/Sherlocks/Origins/img/FTP%20command.jpg)
 
 Indeed, the command used was `RETR`, and was used to download the files **Maintenance-Notice.pdf** and **s3_buckets.txt**
 
@@ -100,9 +100,9 @@ Indeed, the command used was `RETR`, and was used to download the files **Mainte
 In order to find this information, we searched within the files downloaded by the attacker, which may contain sensitive data.
 To do this, we go to **File** -> **Export Objects** -> **FTP-DATA** in Wireshark.
 
-![IMAGE](/Writeups/Sherlocks/Origins/img/Export%20FTP-DATA.jpg)
+![IMAGE](/Sherlocks/Origins/img/Export%20FTP-DATA.jpg)
 
-![IMAGE](/Writeups/Sherlocks/Origins/img/SSH%20password.jpg)
+![IMAGE](/Sherlocks/Origins/img/SSH%20password.jpg)
 
 While analyzing the **Maintenance-Notice.pdf** file, we identified a temporary SSH server password that could potentially be used by the attacker.
 
@@ -113,7 +113,7 @@ While analyzing the **Maintenance-Notice.pdf** file, we identified a temporary S
 
 To obtain the 2023 S3 bucket URL, we examined the **s3_buckets.txt** file. In this file, we found the URL we were looking for, as shown below.
 
-![IMAGE](/Writeups/Sherlocks/Origins/img/2023S3%20link.jpg)
+![IMAGE](/Sherlocks/Origins/img/2023S3%20link.jpg)
 
 **ANSWER: `https://2023-coldstorage.s3.amazonaws.com`**
 
@@ -122,7 +122,7 @@ To obtain the 2023 S3 bucket URL, we examined the **s3_buckets.txt** file. In th
 
 To find the phishing email used to gain access to sensitive data stored on s3 buckets, we analyze the **s3_buckets.txt** file. Within the file, we found an email address that may have been used by the attacker.
 
-![IMAGE](/Writeups/Sherlocks/Origins/img/Phishing%20email.jpg)
+![IMAGE](/Sherlocks/Origins/img/Phishing%20email.jpg)
 
 **ANSWER: `archivebackups@forela.co.uk`**
 
