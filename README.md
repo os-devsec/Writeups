@@ -6,7 +6,7 @@ Here you'll find a collection of machines I’ve solved on **Hack The Box** and 
 
 ## 👨‍💻 About Me
 
-I'm a **Computer Engineering** student with a strong interest in **Cibersecurity**. I'm motivated to keep growing in this field and to contribute to the community by sharing what I learn along the way.
+I'm a **Computer Engineering** student with a strong interest in **Cybersecurity**. I'm motivated to keep growing in this field and to contribute to the community by sharing what I learn along the way.
 
 ## 🎯 Purpose of this Repository
 
