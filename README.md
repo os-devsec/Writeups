@@ -2,7 +2,7 @@
 
 Welcome to my writeups repository
 
-Here you'll find a collection of machines I’ve solved on **Hack The Box** and **TryHackMe**, covering both **[Blue Team](/Sherlocks)** (defensive) and **Red Team** (offensive) perspectives. Each writeup includes a step-by-step explanation of the process I followed.
+Here you'll find a collection of machines I’ve solved on **Hack The Box** and **TryHackMe**, covering both **[Blue Team](/Sherlocks)** (defensive) and **[Red Team](/Challenges)** (offensive) perspectives. Each writeup includes a step-by-step explanation of the process I followed.
 
 ## 👨‍💻 About Me
 
