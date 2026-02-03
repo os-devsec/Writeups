@@ -20,7 +20,7 @@ The first step is to enumerate all open ports on the target machine. For this, I
 nmap -p- -sS --min-rate 5000 -Pn -n 10.80.148.26
 ```
 
-![ports](/Writeups/Challenges/netsec/img/ports.png)
+![ports](/Challenges/netsec/img/ports.png)
 
 This scan reveals all open TCP ports, including those running on nonstandard port numbers.
 
@@ -46,7 +46,7 @@ The first approach uses curl to request only the headers:
 curl -I http://10.80.148.26
 ```
 
-![http_header](/Writeups/Challenges/netsec/img/http_header.png)
+![http_header](/Challenges/netsec/img/http_header.png)
 
 The second approach leverages Nmap’s default scripts and version detection to gather more detailed information about all discovered services:
 
@@ -54,7 +54,7 @@ The second approach leverages Nmap’s default scripts and version detection to 
 nmap -p 22,80,139,445,8080,10021 -sC -sV -Pn -n 10.80.148.26
 ```
 
-![nmap_services_output](/Writeups/Challenges/netsec/img/nmap_services_output.png)
+![nmap_services_output](/Challenges/netsec/img/nmap_services_output.png)
 
 Both methods reveal the flag hidden in the HTTP server header, along with useful details about the other running services.
 
@@ -76,7 +76,7 @@ The FTP service is running on a nonstandard port. Again, Nmap already provides t
 ftp 10.80.148.26 10021
 ```
 
-![ftp_version](/Writeups/Challenges/netsec/img/ftp_version.png)
+![ftp_version](/Challenges/netsec/img/ftp_version.png)
 
 **Q7: We learned two usernames using social engineering: `eddie` and `quinn`. What is the flag hidden in one of these two account files and accessible via FTP?**
 
@@ -92,8 +92,8 @@ hydra -l quinn -P /usr/share/wordlists/rockyou.txt 10.80.148.26 ftp -s 10021
 
 The image below shows the password obtained for both users.
 
-![hydra_eddie](/Writeups/Challenges/netsec/img/hydra_eddie.png)
-![hydra_quinn](/Writeups/Challenges/netsec/img/hydra_quinn.png)
+![hydra_eddie](/Challenges/netsec/img/hydra_eddie.png)
+![hydra_quinn](/Challenges/netsec/img/hydra_quinn.png)
 
 With those credentials, I logged into the FTP service and located the file containing the flag.
 
@@ -101,7 +101,7 @@ With those credentials, I logged into the FTP service and located the file conta
 ftp 10.80.148.26 10021
 ```
 
-![ftp_file](/Writeups/Challenges/netsec/img/ftp_file.png)
+![ftp_file](/Challenges/netsec/img/ftp_file.png)
 
 After downloading the file, the flag can be read directly:
 
@@ -115,7 +115,7 @@ cat ftp_flag.txt
 
 Browsing to http://MACHINE_IP:8080 presents a challenge that requires performing a scan while avoiding detection.
 
-![challenge](/Writeups/Challenges/netsec/img/challenge.png)
+![challenge](/Challenges/netsec/img/challenge.png)
 
 To remain as stealthy as possible, I experimented with different TCP scan types. The scan that successfully bypassed detection was a NULL scan, which sends packets without any TCP flags set.
 
@@ -125,7 +125,7 @@ nmap -sN 10.80.148.26
 
 Once the scan was executed, the challenge page revealed the final flag.
 
-![challenge_solved](/Writeups/Challenges/netsec/img/challenge_solved.png)
+![challenge_solved](/Challenges/netsec/img/challenge_solved.png)
 
 ## Final Thoughts
 
